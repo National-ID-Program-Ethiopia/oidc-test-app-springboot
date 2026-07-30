@@ -73,6 +73,8 @@
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
+            font-family: inherit;
+            font-size: inherit;
             cursor: pointer;
             text-decoration: none;
             display: flex;
@@ -324,10 +326,13 @@
                     <i class="fas fa-arrow-left"></i>
                     Back to Dashboard
                 </a>
-                <a href="/logout" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
-                </a>
+                <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </form>
             </div>
         </div>
     </header>

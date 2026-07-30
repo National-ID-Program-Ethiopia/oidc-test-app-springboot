@@ -70,9 +70,12 @@
             background: rgba(255,255,255,0.2);
             color: white;
             padding: 8px 15px;
+            border: none;
             border-radius: 6px;
             text-decoration: none;
+            font-family: inherit;
             font-size: 0.9rem;
+            cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
@@ -279,10 +282,13 @@
                     <div style="font-weight: 600;" th:text="${userName}">User</div>
                     <div style="font-size: 0.9rem; opacity: 0.8;">Unverified Account</div>
                 </div>
-                <a href="/logout" class="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    Logout
-                </a>
+                <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </form>
             </div>
         </div>
     </header>

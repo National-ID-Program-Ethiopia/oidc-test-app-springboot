@@ -105,6 +105,7 @@
             color: white;
             border: none;
             border-radius: 10px;
+            font-family: inherit;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -173,10 +174,13 @@
             Back to Dashboard
         </a>
 
-        <a href="/logout" class="btn secondary">
-            <i class="fas fa-sign-out-alt"></i>
-            Logout
-        </a>
+        <form th:action="@{/logout}" method="post" style="margin: 0;">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit" class="btn secondary">
+                <i class="fas fa-sign-out-alt"></i>
+                Logout
+            </button>
+        </form>
 
         <div class="notice">
             <i class="fas fa-info-circle"></i>
