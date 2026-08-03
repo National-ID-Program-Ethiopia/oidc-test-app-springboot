@@ -805,7 +805,6 @@
                 return;
             }
             
-            // Mock conversion rates (in real implementation, these would come from an API)
             const rates = {
                 'ETB': 1,
                 'USD': 55.5,
@@ -822,7 +821,6 @@
             } else if (toCurrency === 'ETB') {
                 result = amount * rates[fromCurrency];
             } else {
-                // Convert from source currency to ETB, then to target currency
                 const etbAmount = amount * rates[fromCurrency];
                 result = etbAmount / rates[toCurrency];
             }

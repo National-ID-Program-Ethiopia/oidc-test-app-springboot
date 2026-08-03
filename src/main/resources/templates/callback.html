@@ -228,14 +228,12 @@
         function redirectToDashboard() {
             document.getElementById('loading').style.display = 'block';
             document.querySelector('.btn').style.display = 'none';
-            
-            // Simulate loading time
+
             setTimeout(() => {
                 window.location.href = '/dashboard';
             }, 2000);
         }
 
-        // Auto-redirect after 10 seconds if user doesn't click
         setTimeout(() => {
             if (!document.getElementById('loading').style.display) {
                 redirectToDashboard();

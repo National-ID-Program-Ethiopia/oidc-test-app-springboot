@@ -350,8 +350,7 @@
         </div>
 
         <form id="profileForm" method="post" enctype="multipart/form-data" th:action="@{/profile}">
-            
-            <!-- Fayda Verified Data Section -->
+
             <div class="form-section">
                 <h3 class="section-title">
                     <i class="fas fa-shield-alt"></i>
@@ -398,7 +397,6 @@
                 </div>
             </div>
 
-            <!-- Additional KYC Fields Section -->
             <div class="kyc-section">
                 <h3 class="section-title">
                     <i class="fas fa-user-check"></i>
@@ -518,7 +516,6 @@
     </main>
 
     <script>
-        // File upload preview
         document.querySelectorAll('input[type="file"]').forEach(input => {
             input.addEventListener('change', function(e) {
                 const label = this.nextElementSibling;
@@ -534,17 +531,14 @@
             });
         });
 
-        // Form submission
         document.getElementById('profileForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Show loading state
+
             const submitBtn = this.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
             submitBtn.disabled = true;
-            
-            // Simulate form submission
+
             setTimeout(() => {
                 alert('Profile updated successfully!');
                 submitBtn.innerHTML = originalText;

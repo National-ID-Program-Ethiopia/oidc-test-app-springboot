@@ -29,9 +29,6 @@ public class OAuthClientConfig {
             String jwkJson = new String(decoded, StandardCharsets.UTF_8);
             RSAKey original = RSAKey.parse(jwkJson);
 
-            // Rebuild the key WITHOUT the kid, so Nimbus does not add a 'kid'
-            // to the JWT header — matching the working Django assertion, which
-            // had only {alg, typ} in its header.
             return new RSAKey.Builder(original)
                     .keyID(null)
                     .build();
