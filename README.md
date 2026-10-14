@@ -17,7 +17,7 @@ A comprehensive banking application that integrates with Fayda for secure identi
 ## Prerequisites
 
 - Java 17 or higher
-- Maven 3.9 or higher
+- Maven is optional: the bundled `./mvnw` wrapper downloads Maven 3.9.9 on first use
 - Git
 
 ## Installation and Setup
@@ -31,7 +31,7 @@ cd fayda-bank
 
 ### 2. Environment Configuration
 
-A `.env` file already exists in the project root. Open it and fill in the following variables:
+Create a `.env` file in the project root (it is git-ignored) with the following variables. The names map to the JS reference app's `server/.env` like this: `AUTHORIZATION_ENDPOINT` → `FAYDA_AUTHORIZATION_URI`, `TOKEN_ENDPOINT` → `FAYDA_TOKEN_URI`, `USERINFO_ENDPOINT` → `FAYDA_USER_INFO_URI`; `CLIENT_ID`, `PRIVATE_KEY` and `PRIVATE_KEY_USER_INFO` are the same. `FAYDA_JWK_SET_URI` is `https://esignet.ida.fayda.et/.well-known/jwks.json` (the `jwks_uri` from `https://esignet.ida.fayda.et/.well-known/openid-configuration`).
 
 ```
 CLIENT_ID=your_client_id
@@ -40,6 +40,10 @@ FAYDA_TOKEN_URI=your_token_endpoint
 FAYDA_USER_INFO_URI=your_userinfo_endpoint
 FAYDA_JWK_SET_URI=your_jwk_set_endpoint
 PRIVATE_KEY=your_private_key
+# Encryption private JWK (use=enc), JSON or base64, to decrypt JWE userinfo; falls back to PRIVATE_KEY
+PRIVATE_KEY_USER_INFO=your_encryption_private_jwk
+# Optional: accepted ID token signature algorithms, comma-separated. eSignet signs with PS256 (its discovery document says RS256)
+FAYDA_ID_TOKEN_SIGNING_ALG=PS256,RS256
 ```
 
 `application.yml` reads every one of these directly from `.env` at startup — there is no separate template file to copy, and `.env` is git-ignored so your credentials never get committed.
@@ -47,7 +51,7 @@ PRIVATE_KEY=your_private_key
 ### 3. Install Dependencies
 
 ```
-mvn install
+./mvnw install
 ```
 
 ## Running the Application
@@ -55,8 +59,17 @@ mvn install
 ### Start the Development Server
 
 ```
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
+
+Or build a jar once and run it:
+
+```
+./mvnw -DskipTests package
+java -jar target/fayda-bank-0.0.1-SNAPSHOT.jar
+```
+
+Run it from the project root so `.env` is found. Port 3000 is shared with the React reference app, so stop one before starting the other.
 
 The application will be available at http://localhost:3000
 

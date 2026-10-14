@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title} + ' - Capital Bank'">Error - Capital Bank</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .error-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 560px;
+            text-align: center;
+        }
+
+        .status {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #1e3c72;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 1.5rem;
+            margin: 8px 0 20px;
+        }
+
+        .error-box {
+            background: #fdecea;
+            border: 1px solid #f5c2c0;
+            border-left: 4px solid #d93025;
+            border-radius: 8px;
+            padding: 14px 16px;
+            text-align: left;
+            color: #5f2120;
+            font-size: 14px;
+        }
+
+        .error-box p {
+            word-break: break-word;
+        }
+
+        .error-box .hint {
+            margin-top: 8px;
+            color: #444;
+        }
+
+        details {
+            margin-top: 10px;
+        }
+
+        summary {
+            cursor: pointer;
+            color: #b3261e;
+        }
+
+        pre {
+            margin-top: 6px;
+            padding: 8px;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 260px;
+            overflow: auto;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 22px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #fff;
+        }
+
+        .btn.secondary {
+            background: #eef1f7;
+            color: #1e3c72;
+        }
+
+        @media (max-width: 480px) {
+            .error-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="status" th:text="${status}">500</div>
+        <h1 th:text="${title}">Something went wrong</h1>
+
+        <div class="error-box" role="alert">
+            <p th:text="${message}"></p>
+            <p class="hint" th:if="${hint != null}">
+                <i class="fas fa-lightbulb"></i> <span th:text="${hint}"></span>
+            </p>
+            <details th:if="${detail != null}">
+                <summary>Technical details</summary>
+                <pre th:text="${detail}"></pre>
+            </details>
+        </div>
+
+        <div class="actions">
+            <a href="/dashboard" class="btn"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="/" class="btn secondary"><i class="fas fa-sign-in-alt"></i> Sign in page</a>
+        </div>
+    </div>
+</body>
+</html>

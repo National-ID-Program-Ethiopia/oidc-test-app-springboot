@@ -1,17 +1,35 @@
 package et.fayda.bank.controller;
 
+import et.fayda.bank.config.LoginError;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Controller
 public class PageController {
 
     @GetMapping("/")
-    public String home() {
+    public String home(HttpSession session, Model model) {
+        // Shown once: the failure handler stores it, the next home page view consumes it.
+        Object loginError = session.getAttribute(LoginError.SESSION_KEY);
+        if (loginError != null) {
+            session.removeAttribute(LoginError.SESSION_KEY);
+            model.addAttribute("loginError", loginError);
+        }
         return "home";
+    }
+
+    /** First page after a Fayda login: the verified userinfo, then on to the dashboard (as the Django app's callback view). */
+    @GetMapping("/welcome")
+    public String welcome(@AuthenticationPrincipal OidcUser user, Model model) {
+        addUserAttributes(model, user);
+        return "callback";
     }
 
     @GetMapping("/dashboard")
@@ -79,6 +97,17 @@ public class PageController {
     }
 
     private String str(Object value) {
+        // OIDC "address" is a JSON object; show its formatted form (or its parts) rather than a Map's toString().
+        if (value instanceof Map<?, ?> map) {
+            Object formatted = map.get("formatted");
+            if (formatted != null) {
+                return formatted.toString();
+            }
+            return map.values().stream()
+                    .filter(v -> v != null && !v.toString().isBlank())
+                    .map(Object::toString)
+                    .collect(Collectors.joining(", "));
+        }
         return value != null ? value.toString() : "";
     }
 }

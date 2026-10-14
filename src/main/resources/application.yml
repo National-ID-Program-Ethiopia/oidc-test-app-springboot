@@ -34,8 +34,11 @@ spring:
 # PRIVATE_KEY (the base64-encoded JWK) is read directly from .env by
 # OAuthClientConfig via @Value("${PRIVATE_KEY}") to sign the private_key_jwt
 # client assertion — no separate key file needed.
+# PRIVATE_KEY_USER_INFO (optional, falls back to PRIVATE_KEY) is read by
+# UserInfoDecoder to decrypt JWE userinfo responses.
 
+# Keep Spring Security at INFO: at DEBUG/TRACE it logs the whole OAuth2AuthenticationToken,
+# i.e. every userinfo claim (name, phone, address, base64 picture) on login and on each request.
 logging:
   level:
-    org.springframework.security.oauth2.client: TRACE
-    org.springframework.security: DEBUG   # handy while wiring up OIDC
+    org.springframework.security: INFO

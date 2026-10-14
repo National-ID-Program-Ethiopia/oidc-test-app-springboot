@@ -189,6 +189,65 @@
             margin-bottom: 8px;
         }
 
+        .login-error {
+            background: #fdecea;
+            border: 1px solid #f5c2c0;
+            border-left: 4px solid #d93025;
+            border-radius: 8px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            text-align: left;
+            color: #5f2120;
+            font-size: 14px;
+        }
+
+        .login-error.notice {
+            background: #eef3fc;
+            border-color: #c9d7f2;
+            border-left-color: #2a5298;
+            color: #1e3c72;
+        }
+
+        .login-error.notice strong {
+            color: #1e3c72;
+        }
+
+        .login-error strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #b3261e;
+        }
+
+        .login-error p {
+            margin-top: 6px;
+            word-break: break-word;
+        }
+
+        .login-error .hint {
+            color: #444;
+        }
+
+        .login-error details {
+            margin-top: 8px;
+        }
+
+        .login-error summary {
+            cursor: pointer;
+            color: #b3261e;
+        }
+
+        .login-error pre {
+            margin-top: 6px;
+            padding: 8px;
+            background: #fff;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: pre-wrap;
+            word-break: break-all;
+            max-height: 240px;
+            overflow: auto;
+        }
+
         @media (max-width: 480px) {
             .login-container {
                 padding: 30px 20px;
@@ -207,6 +266,26 @@
         </div>
         <h1>Capital Bank</h1>
         <p class="subtitle">Your Trusted Financial Partner</p>
+
+        <div class="login-error" role="alert" th:if="${loginError != null}">
+            <strong><i class="fas fa-exclamation-circle"></i> <span th:text="${loginError.title}">Sign-in failed</span></strong>
+            <p th:text="${loginError.message}"></p>
+            <p class="hint" th:if="${loginError.hint != null}">
+                <i class="fas fa-lightbulb"></i> <span th:text="${loginError.hint}"></span>
+            </p>
+            <details th:if="${loginError.detail != null}">
+                <summary>Technical details</summary>
+                <pre th:text="${loginError.detail}"></pre>
+            </details>
+        </div>
+        <div class="login-error notice" role="status" th:if="${param.expired != null}">
+            <strong><i class="fas fa-clock"></i> Please sign in</strong>
+            <p>Your session has ended or you are not signed in yet. Sign in with Fayda to continue.</p>
+        </div>
+        <div class="login-error" role="alert" th:if="${loginError == null and param.error != null}">
+            <strong><i class="fas fa-exclamation-circle"></i> Sign-in failed</strong>
+            <p>The login did not complete. Check the server console for details, then try again.</p>
+        </div>
         
         <form action="/login" method="post" th:action="@{/login}">
             <div class="form-group">
